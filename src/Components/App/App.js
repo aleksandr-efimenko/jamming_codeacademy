@@ -20,6 +20,13 @@ class App extends React.Component {
         { name: 'ThirdName', artist: 'ThirdArtist', album: 'ThirdAlbum', id: 3 },
       ]
     };
+    this.addTrack = this.addTrack.bind(this);
+  }
+  addTrack (track) {
+    if (this.state.playlistTracks.some(el => el.id === track.id)) {
+      return;
+    }
+    this.state.playlistTracks.push(track);
   }
   render() {
     return (

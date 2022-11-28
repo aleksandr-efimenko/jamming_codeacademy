@@ -41,12 +41,51 @@ const Spotify = {
         })
         );
 
+    },
+    async savePlaylist(playlistName, playlistTracks) {
+        if (!playlistName || !playlistTracks) {
+            return;
+        }
+        const accessToken = Spotify.getAccessToken();
+        const authorization = {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        }
+        const responseObj = await fetch(`https://api.spotify.com/v1/me`, authorization);
+        const responseJson = await responseObj.json();
+        const myId = responseJson.id;
+
+        const endpointSavePlaylist = `https://api.spotify.com/v1/users/${myId}/playlists`;
+        const requestHeadersSavePlaylist = {
+            method: 'POST',
+            headers: { 
+                Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+                name: playlistName,
+                public: true
+            }),
+        }
+        const playlistCreateResponse = await fetch(endpointSavePlaylist, requestHeadersSavePlaylist)
+        const playlistCreateResponseJson = await playlistCreateResponse.json();
+        const playlistId = playlistCreateResponseJson.id;
+
+        console.log(playlistId);
+
+        const addTracksEndpoint = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+        const requestHeadersAddTracks = {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({
+                uris: playlistTracks
+            })
+        }
+        const addTracksRequest = await fetch(addTracksEndpoint, requestHeadersAddTracks);
+        if(!addTracksRequest.ok) {
+            console.error(await addTracksRequest.json());
+        }
     }
 }
-
-Spotify.getAccessToken()
-console.log(accessToken)
-
-Spotify.search('Abba')
 
 export default Spotify;

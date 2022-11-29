@@ -1,6 +1,6 @@
 const client_id = '0e40bb1f88d84db29b6344e08dfb7914';
-// const redirect_uri = 'http://spotify-react-codeacademy.surge.sh';
-const redirect_uri = 'http://localhost:3000';
+const redirect_uri = 'http://spotify-react-codeacademy.surge.sh';
+// const redirect_uri = 'http://localhost:3000';
 let accessToken;
 
 const Spotify = {

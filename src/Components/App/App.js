@@ -32,8 +32,11 @@ class App extends React.Component {
       return;
     }
     this.state.playlistTracks.push(track);
-    this.state.searchResults = this.state.searchResults.filter(tr => tr.id !== track.id);
-    this.setState({playlistTracks: this.state.playlistTracks});
+    // this.state.searchResults = this.state.searchResults.filter(tr => tr.id !== track.id);
+    this.setState({
+      searchResults: this.state.searchResults.filter(tr => tr.id !== track.id),
+      playlistTracks: this.state.playlistTracks
+    });
   }
   removeTrack (track) {
     const trackToAdd = this.state.playlistTracks.find(el => el.id === track.id);
